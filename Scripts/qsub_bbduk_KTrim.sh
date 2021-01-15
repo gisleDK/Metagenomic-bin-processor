@@ -23,7 +23,7 @@ cd $PBS_O_WORKDIR
 # This is where the work is done
 # This script is used in Step 1 of the binning workflow which removes adapter sequence.
 # Remember to specify your adapters with literal=Adapter1,Adapter2... or use reference adapters with ref=adapters.fa
-# Remember to adjust forcetrimleft=3 according to your FASTQC reports
+# Remember to adjust forcetrimleft=3 according to your FASTQC reports.
 [ $# != 3 ] && { echo "Usage: qsub -F '<R1 FULL PATH> <R2 FULL PATH> <OUTPUT DIR> qsub_bbduk_KTrim.sh"; exit 1; }
 
 R1=$1
