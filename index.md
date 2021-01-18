@@ -9,7 +9,7 @@ This example binning workflow was used for fecal samples. Remember to adjust acc
 2. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_sickle.sh) performs trimming of low quality sequence using [Sickle](https://github.com/najoshi/sickle).
 3. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_bbmap_Decon.sh) removes host contamination [bbmap](https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/).
 4. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_spades.sh) does assembly using [Spades](https://github.com/ablab/spades).
-5. For binning we should set a lower-cutoff limit for contig size. 1590 seems a good compromise and is also the default value for Metabat. You can use [this script](https://github.com/gisleDK/Biopythonpieces/blob/master/Scripts/fasta_select_size.py)
+5. For binning we should set a lower-cutoff limit for contig size. 1500 bp seems a good compromise and is also the default value for Metabat. You can use [this script](https://github.com/gisleDK/Biopythonpieces/blob/master/Scripts/fasta_select_size.py) for selecting contigs based on size.
 5. [This script] maps reads using [Minimap2](https://github.com/ablab/spades)
 6. Contig coverage using JGIs [jgi_summarize_bam_contig_depths](https://bitbucket.org/berkeleylab/metabat/src/master/), which is actually part of the Metabat binner.
 
