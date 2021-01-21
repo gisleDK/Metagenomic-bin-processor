@@ -1,7 +1,7 @@
 #!/bin/sh
 ### Note: No commands may be executed until after the #PBS lines
 ### Account information
-#PBS -W group_list=<Your group> -A <Your group>
+#PBS -W group_list=<your group> -A <your group>
 ### Job name (comment out the next line to get the name of the script used as the job name)
 #PBS -N bbduk
 ### Output files (comment out the next 2 lines to get the job name used instead)
@@ -32,4 +32,4 @@ R2=$2
 R2_pure=$(echo "$R2" | rev | cut -f1 -d'/' | rev)
 OUTDIR=$3
 mkdir -p "$OUTDIR"
-/home/projects/<Your group>/data/Bin/Programs/bbmap/bbduk.sh in1="$R1" in2="$R2" out1="$OUTDIR"/"$R1_pure" out2="$OUTDIR"/"$R2_pure" literal=AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT,GATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNATCTCGTATGCCGTCTTCTGCTTG  ktrim=r k=23 mink=11 hdist=1 hdist2=0 forcetrimleft=3 tpe tbo 
+bbduk.sh in1="$R1" in2="$R2" out1="$OUTDIR"/"$R1_pure" out2="$OUTDIR"/"$R2_pure" literal=AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT,GATCGGAAGAGCACACGTCTGAACTCCAGTCACNNNNNNATCTCGTATGCCGTCTTCTGCTTG  ktrim=r k=23 mink=11 hdist=1 hdist2=0 forcetrimleft=3 tpe tbo 
