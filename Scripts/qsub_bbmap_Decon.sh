@@ -23,7 +23,6 @@ cd "$PBS_O_WORKDIR"
 # This script is used in Step 3 of the binning workflow which removes host contamination.
 # Remember to specify your reference sequence (See https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbmap-guide/).
 [ $# != 3 ] && { echo "Usage: qsub -F '<R1 FULL PATH> <R2 FULL PATH> <OUTPUT DIR>' qsub_bbmap_DeconHomo.sh"; exit 1; }
-export PATH=/home/projects/<Your group>/data/Bin/Programs/miniconda3/bin:$PATH
 R1=$1
 R2=$2
 OUTDIR=$3
