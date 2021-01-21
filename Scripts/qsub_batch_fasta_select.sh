@@ -31,9 +31,9 @@ OUT=$4
 mkdir -p $OUT
 
 if [[ "$STRING" == "larger" ]]; then
-	/home/projects/cu_10108/data/Bin/parallel -j 38 '/home/projects/cu_10108/data/Scripts/biopythonpieces_fasta_select.py -f {1} -L {2} -o {3}/{1}' :::: $FASTA ::: $INT ::: $OUT
+	parallel -j 38 '/home/projects/cu_10108/data/Scripts/biopythonpieces_fasta_select.py -f {1} -L {2} -o {3}/{1}' :::: $FASTA ::: $INT ::: $OUT
 elif [[ "$STRING" == "smaller" ]]; then
-	/home/projects/cu_10108/data/Bin/parallel -j 38 '/home/projects/cu_10108/data/Scripts/biopythonpieces_fasta_select.py -f {1} -S {2} -o {3}/{1}' :::: $FASTA ::: $INT ::: $OUT
+	parallel -j 38 '/home/projects/cu_10108/data/Scripts/biopythonpieces_fasta_select.py -f {1} -S {2} -o {3}/{1}' :::: $FASTA ::: $INT ::: $OUT
 else
 	echo "$2 is not a valid option"
 	echo "Usage: qsub -F '<list of fasta file FILE> <larger/smaller STRING> <Cut-off INT>' qsub_batch_fasta_select.sh"; exit 1;
