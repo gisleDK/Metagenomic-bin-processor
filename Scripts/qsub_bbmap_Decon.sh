@@ -1,7 +1,7 @@
 #!/bin/sh
 ### Note: No commands may be executed until after the #PBS lines
 ### Account information
-#PBS -W group_list=<Your group> -A <Your group>
+#PBS -W group_list=<your group> -A <your group>
 ### Job name (comment out the next line to get the name of the script used as the job name)
 #PBS -N decon
 ### Output files (comment out the next 2 lines to get the job name used instead)
@@ -28,4 +28,4 @@ R1=$1
 R2=$2
 OUTDIR=$3
 mkdir -p "$OUTDIR"
-/home/projects/<Your group>/data/Bin/Programs/bbmap/bbmap.sh qin=33 threads=38 in="$R1" in2="$R2" outu1="$OUTDIR"/"$R1" outu2="$OUTDIR"/"$R2" outm1="$OUTDIR"/"$R1".human.fq.gz outm2="$OUTDIR"/"$R2".human.fq.gz path=/home/projects/<Your group>/data/Bin/Programs/bbmap/resources/
+bbmap.sh qin=33 threads=38 in="$R1" in2="$R2" outu1="$OUTDIR"/"$R1" outu2="$OUTDIR"/"$R2" outm1="$OUTDIR"/"$R1".human.fq.gz outm2="$OUTDIR"/"$R2".human.fq.gz path=/home/projects/<Your group>/data/Bin/Programs/bbmap/resources/
