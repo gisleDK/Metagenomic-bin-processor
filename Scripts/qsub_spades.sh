@@ -1,7 +1,7 @@
 #!/bin/sh
 ### Note: No commands may be executed until after the #PBS lines
 ### Account information
-#PBS -W group_list=<Your group> -A <Your group>
+#PBS -W group_list=<your group> -A <your group>
 ### Job name (comment out the next line to get the name of the script used as the job name)
 #PBS -N spades_assembly
 ### Output files (comment out the next 2 lines to get the job name used instead)
@@ -28,4 +28,4 @@ R1_pure=$(echo "$R1" | cut -f 1-4 -d '_')
 R2=$2
 OUTDIR=$3
 mkdir -p "$OUTDIR"/"$R1_pure"
-/home/projects/<Your group>/data/Bin/Programs/miniconda3/bin/metaspades.py --tmp-dir "$OUTDIR"/"$R1_pure"/metaspades.tmp -t 38 -m 170 -o "$OUTDIR"/"$R1_pure" -1 "$R1" -2 "$R2" -k 21,33,55,77,99,127
+metaspades.py --tmp-dir "$OUTDIR"/"$R1_pure"/metaspades.tmp -t 38 -m 170 -o "$OUTDIR"/"$R1_pure" -1 "$R1" -2 "$R2" -k 21,33,55,77,99,127
