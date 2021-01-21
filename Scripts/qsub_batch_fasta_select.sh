@@ -22,7 +22,6 @@ cd "$PBS_O_WORKDIR"
 # This script is used in Step 5 of the binning workflow to remove small contigs.
 # This script is made to run fasta_select.sh on larger scale. It reads a list of concatenated fasta files and selects according
 # to size requirements of each individual entry.
-#!/bin/sh
 [ $# != 4 ] && { echo "Usage: qsub -F '<list of fasta file FILE> <larger/smaller STRING> <cut-off INT> <output directory DIR>' qsub_batch_fasta_select.py"; exit 1; }
 FASTA=$1
 STRING=$2
