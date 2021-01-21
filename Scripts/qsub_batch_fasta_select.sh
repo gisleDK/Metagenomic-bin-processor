@@ -1,7 +1,7 @@
 #!/bin/sh
 ### Note: No commands may be executed until after the #PBS lines
 ### Account information
-#PBS -W group_list=cu_10108 -A cu_10108
+#PBS -W group_list=<your group> -A <your group>
 ### Job name (comment out the next line to get the name of the script used as the job name)
 #PBS -N fasta_select
 ### Output files (comment out the next 2 lines to get the job name used instead)
@@ -31,9 +31,9 @@ OUT=$4
 mkdir -p $OUT
 
 if [[ "$STRING" == "larger" ]]; then
-	parallel -j 38 '/home/projects/cu_10108/data/Scripts/biopythonpieces_fasta_select.py -f {1} -L {2} -o {3}/{1}' :::: $FASTA ::: $INT ::: $OUT
+	parallel -j 38 'biopythonpieces_fasta_select.py -f {1} -L {2} -o {3}/{1}' :::: $FASTA ::: $INT ::: $OUT
 elif [[ "$STRING" == "smaller" ]]; then
-	parallel -j 38 '/home/projects/cu_10108/data/Scripts/biopythonpieces_fasta_select.py -f {1} -S {2} -o {3}/{1}' :::: $FASTA ::: $INT ::: $OUT
+	parallel -j 38 'biopythonpieces_fasta_select.py -f {1} -S {2} -o {3}/{1}' :::: $FASTA ::: $INT ::: $OUT
 else
 	echo "$2 is not a valid option"
 	echo "Usage: qsub -F '<list of fasta file FILE> <larger/smaller STRING> <Cut-off INT>' qsub_batch_fasta_select.sh"; exit 1;
