@@ -18,6 +18,8 @@ This example binning workflow was used for fecal samples. It is provided mainly 
 
 ## Postprocessing bins
 
+## Analyzing MAGs
+
 ### Taxonomy of bins
 
 ### Gene-catalogues of binning clusters
@@ -29,3 +31,5 @@ This example binning workflow was used for fecal samples. It is provided mainly 
 ### Binning clusters phylogeny
 
 ### Abundance of bins
+
+## Analyzing Extrachromosomal elements
