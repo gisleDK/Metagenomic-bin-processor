@@ -1,7 +1,7 @@
 #!/bin/sh
 ### Note: No commands may be executed until after the #PBS lines
 ### Account information
-#PBS -W group_list=<Your group> -A <Your group>
+#PBS -W group_list=<your group> -A <your group>
 ### Job name (comment out the next line to get the name of the script used as the job name)
 #PBS -N sickle
 ### Output files (comment out the next 2 lines to get the job name used instead)
@@ -29,4 +29,4 @@ R2=$2
 R2_pure=$(echo "$R2" | rev | cut -f1 -d'/' | rev)
 OUTDIR=$3
 mkdir -p "$OUTDIR"
-/home/projects/<Your group>/data/Bin/Programs/sickle-1.33/sickle pe -g --qual-type sanger -f "$R1" -r "$R2" -o "$OUTDIR"/"$R1_pure" -p "$OUTDIR"/"$R2_pure" -s "$OUTDIR"/"$R1_pure.singles" -l 100
+sickle pe -g --qual-type sanger -f "$R1" -r "$R2" -o "$OUTDIR"/"$R1_pure" -p "$OUTDIR"/"$R2_pure" -s "$OUTDIR"/"$R1_pure.singles" -l 100
