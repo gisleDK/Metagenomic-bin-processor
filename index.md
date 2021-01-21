@@ -11,8 +11,8 @@ This example binning workflow was used for fecal samples. Remember to adjust acc
 3. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_bbmap_Decon.sh) removes host contamination [bbmap](https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/).
 4. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_spades.sh) does assembly using [Spades](https://github.com/ablab/spades).
 5. We need to set a lower-cutoff limit for contig size. You can use [this script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_batch_fasta_select.sh).
-6. [This script] indexes contigs for [Minimap2](https://github.com/lh3/minimap2).
-7. [This script] maps reads using [Minimap2](https://github.com/lh3/minimap2)
+6. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_minimap2_index.sh) indexes contigs for [Minimap2](https://github.com/lh3/minimap2).
+7. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/minimap2_align.sh) maps reads using [Minimap2](https://github.com/lh3/minimap2)
 8. Contig coverage using JGIs [jgi_summarize_bam_contig_depths](https://bitbucket.org/berkeleylab/metabat/src/master/), which is actually part of the Metabat binner.
 
 
