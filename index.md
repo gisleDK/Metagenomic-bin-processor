@@ -1,6 +1,6 @@
-# Vamb tools
+# Metagenomic bin processor
 ## Introduction
-This is a collection of tools that should help with downstream analysis of data obtained from Vamb binning.
+This is a collection of tools that should help with downstream analysis of data obtained from metagenomic binnser such as Vamb or MSPMiner.
 Vamb provides not only the binning clusters of all related contigs but also the bins obtained from individual samples and like many other programs allows a lot of options. Be aware that your question should dictate your workflow but I am providing information about how I run Vamb to allow better reproduction of my workflows.
 The provided scripts are all made for high-performance computing servers using a TORQUE Resource Manager and more specifically tested/running on [Computerome 2.0](https://www.computerome.dk/display/C2W/Computerome+2.0)
 ## Binning using Vamb
@@ -15,6 +15,7 @@ This example binning workflow was used for fecal samples. It is provided mainly 
 7. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/minimap2_align.sh) maps reads using [Minimap2](https://github.com/lh3/minimap2)
 8. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_fasta_coverage.sh) analyses the contig coverage using JGIs [jgi_summarize_bam_contig_depths](https://bitbucket.org/berkeleylab/metabat/src/master/), which is actually part of the Metabat binner.
 9. Now we are ready to bin using [this script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_vamb_bin.sh) which is running the GPU accelerated [VAMB](https://github.com/RasmussenLab/vamb).
+### Detailed VAMB workflow
 
 ## Postprocessing bins
 
