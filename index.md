@@ -20,8 +20,9 @@ This example binning workflow was used for fecal samples. It is provided mainly 
 
 ## Postprocessing bins
 <img align="right" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Genome_size_vs_protein_count.svg/512px-Genome_size_vs_protein_count.svg.png"  >
-We want to separate bins into potential MAGs and extrachromosomal elements. Some bins containing MAGs will also contain viruses and plasmids but are apparently so associated with one specific organism that it makes biological sense to leave them together with their host. However, for analyzing extrachromosomal elements we will of course include these as well.
-Since chromosomes smaller than 200,000bp are the execption I have set the cut-off here. <br>
+The binning workflows suggested do not have a lower cut-off for bins. This means that we will have many small bins of which some will be of little use.
+We want to separate bins into potential MAGs and extrachromosomal elements. Some bins containing MAGs will also contain viruses and plasmids but are apparently so associated with one specific organism that it makes biological sense to leave them together with their host. However, for analyzing extrachromosomal elements we will of course include these as well. As seen on the figure chromosomes smaller than 200,000bp are the exception thus I have set the cut-off here. <br>
+
 
 
 ## Analyzing MAGs
