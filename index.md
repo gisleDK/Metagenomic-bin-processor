@@ -15,6 +15,7 @@ This example binning workflow was used for fecal samples. It is provided mainly 
 7. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/minimap2_align.sh) maps reads using [Minimap2](https://github.com/lh3/minimap2)
 8. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_fasta_coverage.sh) analyses the contig coverage using JGIs [jgi_summarize_bam_contig_depths](https://bitbucket.org/berkeleylab/metabat/src/master/), which is actually part of the Metabat binner.
 9. Now we are ready to bin using [this script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_vamb_bin.sh) which is running the GPU accelerated [VAMB](https://github.com/RasmussenLab/vamb).
+
 ### Detailed VAMB workflow
 
 ## Postprocessing bins
