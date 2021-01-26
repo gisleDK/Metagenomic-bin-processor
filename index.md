@@ -12,7 +12,7 @@ This example binning workflow was used for fecal samples. It is provided mainly 
 4. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_spades.sh) does assembly using [Spades](https://github.com/ablab/spades).
 5. We need to set a lower-cutoff limit for contig size. You can use [this script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_batch_fasta_select.sh).
 6. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_minimap2_index.sh) indexes contigs for [Minimap2](https://github.com/lh3/minimap2).
-7. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/minimap2_align.sh) maps reads using [Minimap2](https://github.com/lh3/minimap2)
+7. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_minimap2_align.sh) maps reads using [Minimap2](https://github.com/lh3/minimap2)
 8. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_fasta_coverage.sh) analyses the contig coverage using JGIs [jgi_summarize_bam_contig_depths](https://bitbucket.org/berkeleylab/metabat/src/master/), which is actually part of the Metabat binner.
 9. Now we are ready to bin using [this script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_vamb_bin.sh) which is running the GPU accelerated [VAMB](https://github.com/RasmussenLab/vamb).
 
@@ -22,7 +22,7 @@ This example binning workflow was used for fecal samples. It is provided mainly 
 <img align="right" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Genome_size_vs_protein_count.svg/512px-Genome_size_vs_protein_count.svg.png"  >
 The binning workflows suggested do not have a lower cut-off for bins. This means that we will have many small bins of which some will be of little use.
 We want to separate bins into potential MAGs and extrachromosomal elements. Some bins containing MAGs will also contain viruses and plasmids but are apparently so associated with one specific organism that it makes biological sense to leave them together with their host. However, for analyzing extrachromosomal elements we will of course include these as well. As seen on the figure chromosomes smaller than 200,000bp are the exception thus I have set the cut-off here. <br>
-
+You can copy all bins larger than your wanted cut-off using this [script](
 
 
 ## Analyzing MAGs
