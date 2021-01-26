@@ -22,11 +22,11 @@ This example binning workflow was used for fecal samples. It is provided mainly 
 <img align="right" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Genome_size_vs_protein_count.svg/480px-Genome_size_vs_protein_count.svg.png">
 The binning workflows suggested do not have a lower cut-off for bins. This means that we will have many small bins of which some will be of little use.
 We want to separate bins into potential MAGs and extrachromosomal elements. Some bins containing MAGs will also contain viruses and plasmids but are apparently so associated with one specific organism that it makes biological sense to leave them together with their host. However, for analyzing extrachromosomal elements we will of course include these as well. As seen on the figure chromosomes smaller than 200,000bp are the exception thus I have set the cut-off here.
-You can copy all bins larger than your wanted cut-off using this  [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_bbmap_Decon.sh).
+You can copy all bins larger than your wanted cut-off using this [script](https://github.com/gisleDK/Metagenomic-bin-processor/blob/main/Bin/fasta_select_file_size.py).
 
 
 ## Analyzing MAGs
-
+[script](https://github.com/gisleDK/Metagenomic-bin-processor/blob/main/Bin/fasta_select_file_size.py)
 ### Taxonomy of bins
 
 ### Gene-catalogues of binning clusters
