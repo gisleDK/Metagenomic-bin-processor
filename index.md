@@ -19,6 +19,9 @@ This example binning workflow was used for fecal samples. It is provided mainly 
 ###Detailed VAMB workflow
 
 ## Postprocessing bins
+We want to separate bins into potential MAGs and extrachromosomal elements. Some bins containing MAGs will also contain viruses and plasmids but are apparently so associated with one specific organism that it makes biological sense to leave them together with their host. However, for analyzing extrachromosomal elements we will of course include these as well.
+Since chromosomes smaller than 200,000bp are the execption I have set the cut-off here.
+<img src="https://en.wikipedia.org/wiki/Bacterial_genome#/media/File:Genome_size_vs_protein_count.svg" alt="hi" class="inline"/>
 
 ## Analyzing MAGs
 
