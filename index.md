@@ -30,6 +30,10 @@ We want to separate bins into potential MAGs and extrachromosomal elements. Some
 ### Taxonomy of bins
 
 ### Gene-catalogues of binning clusters
+[This Snakefile](https://github.com/gisleDK/Metagenomic-bin-processor/blob/main/gene_count_matrix/Snakefile_VAMBgenes) takes the sequences of VAMB clusters and produces a gene count matrix of the nonredundant genes for each cluster (also excluding representative sequences). 
+
+The rulegraph of the suggested pipeline is seen as:
+<p><img src='https://github.com/gisleDK/Metagenomic-bin-processor/blob/main/gene_count_matrix/rulegraph.svg'></p>
 
 ### Binning clusters signature genes
 
