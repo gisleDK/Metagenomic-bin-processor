@@ -4,7 +4,7 @@ This is a collection of tools that should help with downstream analysis of data 
 Vamb provides not only the binning clusters of all related contigs but also the bins obtained from individual samples and like many other programs allows a lot of options. Be aware that your question should dictate your workflow but I am providing information about how I run Vamb to allow better reproduction of my workflows.
 The provided scripts are all made for high-performance computing servers using a TORQUE Resource Manager and more specifically tested/running on [Computerome 2.0](https://www.computerome.dk/display/C2W/Computerome+2.0)
 ##Binning using Vamb
-This example binning workflow was used for fecal samples. It is provided mainly to allow reproduction, but can of course be used. Remember to adjust according to your data and hypothesis. You should also check input/output using [FastQC](https://github.com/s-andrews/FastQC) at every step to insure optimal quality. Remember, trash in -> trash out. For proper documentation look at [Vambs](https://github.com/RasmussenLab/vamb) Github.
+This example binning workflow was used for fecal samples. It is provided mainly to allow reproduction, but can of course be used. Remember to adjust according to your data and hypothesis. You should also check input/output using [FastQC](https://github.com/s-andrews/FastQC) at every step to insure optimal quality. For VAMB documentation look at [Vambs](https://github.com/RasmussenLab/vamb) Github which now includes a snakemake!
 ###Overview
 1. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_bbduk_KTrim.sh) removes adapter sequence from raw reads using [bbduk](https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/).
 2. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_sickle.sh) performs trimming of low quality sequence using [Sickle](https://github.com/najoshi/sickle).
@@ -22,10 +22,12 @@ This example binning workflow was used for fecal samples. It is provided mainly 
 <img align="right" src="https://github.com/gisleDK/Metagenomic-bin-processor/blob/gh-pages/plot_binsizes.png?raw=true" width="500">
 
 The binning workflows suggested do not have a lower cut-off for bins. This means that we will have many small bins of which some will be of little use.
-We want to separate bins into potential MAGs and extrachromosomal elements. Some bins containing MAGs will also contain viruses and plasmids but are apparently so associated with one specific organism that it makes biological sense to leave them together with their host. However, for analyzing extrachromosomal elements we will of course include these as well. As seen on the figure chromosomes smaller than 200,000bp are the exception thus I have set the cut-off here. You can copy all bins larger than your wanted cut-off  using this [script](https://github.com/gisleDK/Metagenomic-bin-processor/blob/main/Bin/fasta_select_file_size.py). It also provides a visualization of ALL bins and shows your cut-off as a red line.
+We want to separate bins into potential MAGs (Metagenome-Assembled Genomes) and extrachromosomal elements. Some bins containing MAGs will also contain viruses and plasmids but are apparently so associated with one specific organism that it makes biological sense to leave them together with their host. However, for analyzing extrachromosomal elements we will of course include these as well. As seen on the figure chromosomes smaller than 200,000bp are the exception thus I have set the cut-off here. You can copy all bins larger than your wanted cut-off  using this [script](https://github.com/gisleDK/Metagenomic-bin-processor/blob/main/Bin/fasta_select_file_size.py). It also provides a visualization of ALL bins and shows your cut-off as a red line.
 
+## Analyzing Metagenome-Assembled Genomes
+Now that we have separated potential MAGs (bins larger than our cut-off), we would like to do some quality control. [CheckM](https://ecogenomics.github.io/CheckM/) uses lineage-specific marker gene sets to gauge to completness and level of contamination in each bin. 
 
-## Analyzing MAGs
+###  Assessment of genome quality
 
 ### Taxonomy of bins
 
