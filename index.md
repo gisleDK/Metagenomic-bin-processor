@@ -23,7 +23,7 @@ The binning workflows suggested do not have a lower cut-off for bins. This means
 We want to separate bins into potential MAGs (Metagenome-Assembled Genomes) and extrachromosomal elements. Some bins containing MAGs will also contain viruses and plasmids but are apparently so associated with one specific organism that it makes biological sense to leave them together with their host. However, for analyzing extrachromosomal elements we will of course include these as well. As seen on the figure chromosomes smaller than 200,000bp are the exception thus I have set the cut-off here. You can copy all bins larger than your wanted cut-off  using this [script](https://github.com/gisleDK/Metagenomic-bin-processor/blob/main/Bin/fasta_select_file_size.py). It also provides a visualization of ALL bins and shows your cut-off as a red line.
 
 ## Analyzing Metagenome-Assembled Genomes
-Now that we have separated potential MAGs (bins larger than our cut-off), we would like to do some quality control. [CheckM](https://ecogenomics.github.io/CheckM/) uses lineage-specific marker gene sets to gauge to completness and level of contamination in each bin. 
+Now that we have separated potential MAGs (bins larger than our cut-off), we would like to do some quality control. [CheckM](https://ecogenomics.github.io/CheckM/) uses lineage-specific marker gene sets to gauge to completness and level of contamination in each bin. CheckM is also included in the VAMB Snakemake workflow.
 
 ###  Assessment of genome quality
 
