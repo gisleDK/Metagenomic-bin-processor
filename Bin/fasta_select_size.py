@@ -38,5 +38,3 @@ if args.small:
 				short_sequences.append(record)
 	SeqIO.write(short_sequences, args.output, "fasta")
 	handle.close
-
-Test
