@@ -18,14 +18,15 @@
 cd "$PBS_O_WORKDIR"
  
 # This is where the work is done
-# This script is used in Step 4 of the binning workflow which does the sequence assembly.
-# You might want to adjust the kmers used depending on your data.
+# This script will use CheckM to do QA on all bins (needs fna file extension) in a given directory.
+# CheckM output is provided as well as a summary table and a summary figure.
 
 [ $# != 2 ] && { echo "Usage: qsub -F '<Directory containing bins DIR> <Output directory DIR> ' qsub_checkm.sh"; exit 1; }
 export PATH=/home/projects/cu_10108/data/Bin/Programs/miniconda3/bin:$PATH
 source activate vamb
 INDIR=$1
 OUTDIR=$2
+INDIR_PURE=$(echo "$INDIR" | rev | cut -f 1 -d '/' | rev)
 
 checkm lineage_wf "$INDIR" "$OUTDIR" -t 5 --pplacer_threads 5
-checkm qa "$OUTDIR"/lineage.ms "$OUTDIR" -o 2 -t 38 -f "OUTDIR"/"$INDIR"_checkm_qa.tsv
+checkm qa "$OUTDIR"/lineage.ms "$OUTDIR" -o 2 -t 38 --tab_table -f "$OUTDIR"/"$INDIR_PURE"_checkm_qa.tsv 
