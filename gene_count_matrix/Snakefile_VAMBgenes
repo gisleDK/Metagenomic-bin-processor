@@ -7,8 +7,8 @@
 #/home/projects/cu_10108/people/trizac/VAMB_genes/contigs
 
 # The output is:
-#    nonredundant_gene_clusters/gene_count_matrix.tsv: Gene count matrix of the readcounts of all genes of the unique genes
-# 
+#    VAMB_genes/nonredundant_gene_clusters/gene_count_matrix.tsv: Gene count matrix of the readcounts of all genes of the unique genes
+#    VAMB_genes/nonredundant_gene_clusters/gene_lists/{id}_genes.txt: List of unique genes for each cluster
 
 ##############################################################################################
 
@@ -22,23 +22,21 @@ import sys
 IDS, =  glob_wildcards("/home/projects/cu_10108/people/trizac/VAMB_genes/contigs/cluster_{id}.fna")
 SAMPLES, = glob_wildcards("/home/projects/cu_10108/people/trizac/reads/{sample}_1.fastq")
 
-#print(SAMPLES[1:10], len(SAMPLES))
-#print(IDS[1:10], len(IDS))
 
 #Helper rule
 rule all:
-        input: "prodigal_genes/mmseqs_95id/all_genes95_rep_seq.fasta",
-               "nonredundant_gene_clusters/gene_count_matrix.tsv",
-                expand("nonredundant_gene_clusters/nucleotides/{id}_nonredundant.fna", id=IDS)
+        input: "VAMB_genes/prodigal_genes/mmseqs_95id/all_genes95_rep_seq.fasta",
+               "VAMB_genes/nonredundant_gene_clusters/gene_count_matrix.tsv",
+                "VAMB_genes/nonredundant_gene_clusters/geneID_clusterID_snake.tsv"
 
 
 # Use prodigal to predict genes
 rule gene_predict:
     input:
-        "contigs/cluster_{id}.fna"
+        "VAMB_genes/contigs/cluster_{id}.fna"
     output:
-        protein = "prodigal_genes/proteins/{id}.faa",
-        nuceotides = "prodigal_genes/nucleotides/{id}.fna"
+        protein = "VAMB_genes/prodigal_genes/proteins/{id}.faa",
+        nuceotides = "VAMB_genes/prodigal_genes/nucleotides/{id}.fna"
     threads: 1
     resources:
         mem_gb = 20,
@@ -49,11 +47,11 @@ rule gene_predict:
 # combine genes from all the samples
 rule combine_genes:
     input:
-        prot = expand("prodigal_genes/proteins/{id}.faa", id=IDS),
-        nuc = expand("prodigal_genes/nucleotides/{id}.fna", id=IDS)
+        prot = expand("VAMB_genes/prodigal_genes/proteins/{id}.faa", id=IDS),
+        nuc = expand("VAMB_genes/prodigal_genes/nucleotides/{id}.fna", id=IDS)
     output:
-        prot = "prodigal_genes/all_genes.faa",
-        nuc = "prodigal_genes/all_genes.fna"
+        prot = "VAMB_genes/prodigal_genes/all_genes.faa",
+        nuc = "VAMB_genes/prodigal_genes/all_genes.fna"
     threads: 1
     resources:
         mem_gb = 60,
@@ -65,9 +63,9 @@ rule combine_genes:
 # Get representative genes from all genes.
 rule repres_genes:
     input:
-        "prodigal_genes/all_genes.faa"
+        "VAMB_genes/prodigal_genes/all_genes.faa"
     output:
-        "prodigal_genes/mmseqs_95id/all_genes95_rep_seq.fasta"
+        "VAMB_genes/prodigal_genes/mmseqs_95id/all_genes95_rep_seq.fasta"
     threads: 14
     resources:
         mem_gb = 50,
@@ -80,9 +78,9 @@ rule repres_genes:
 # Based on the clustering file from mmseqs
 rule redundant_genes:
     input:
-        "prodigal_genes/mmseqs_95id/all_genes95_cluster.tsv"
+        "VAMB_genes/prodigal_genes/mmseqs_95id/all_genes95_cluster.tsv"
     output:
-        "prodigal_genes/mmseqs_95id/redundant_genes.tsv"
+        "VAMB_genes/prodigal_genes/mmseqs_95id/redundant_genes.tsv"
     threads: 1
     resources:
         mem_gb = 50,
@@ -94,26 +92,29 @@ rule redundant_genes:
 # Creating a fasta file for each cluster only containing non-redundant genes (also excluding representatives)
 rule nonredundant_clusters:
     input: 
-        prot = "prodigal_genes/proteins/{id}.faa",
-        nuc = "prodigal_genes/nucleotides/{id}.fna",
-        redundant = "prodigal_genes/mmseqs_95id/redundant_genes.tsv"
+        prot = "VAMB_genes/prodigal_genes/proteins/{id}.faa",
+        nuc = "VAMB_genes/prodigal_genes/nucleotides/{id}.fna",
+        redundant = "VAMB_genes/prodigal_genes/mmseqs_95id/redundant_genes.tsv"
     output:
-        prot_nonredundant = "nonredundant_gene_clusters/proteins/{id}_nonredundant.faa",
-        nuc_nonredundant = "nonredundant_gene_clusters/nucleotides/{id}_nonredundant.fna"
+        prot_nonredundant = "VAMB_genes/nonredundant_gene_clusters/proteins/{id}_nonredundant.faa",
+        nuc_nonredundant = "VAMB_genes/nonredundant_gene_clusters/nucleotides/{id}_nonredundant.fna",
+        gene_lists = "VAMB_genes/nonredundant_gene_clusters/gene_lists/{id}_genes.txt"
     threads: 1
     resources:
         mem_gb = 50,
         runtime = 86400
     shell:
         "filterbyname.sh in={input.prot} out={output.prot_nonredundant} names={input.redundant} include=f; "
-        "filterbyname.sh in={input.nuc} out={output.nuc_nonredundant} names={input.redundant} include=f"
+        "filterbyname.sh in={input.nuc} out={output.nuc_nonredundant} names={input.redundant} include=f; "
+        "grep '>' {output.prot_nonredundant} | cut -d' ' -f1 | sed --expression='s/>//g' > {output.gene_lists}"
+
 
 rule nonredundant_catalogue:
     input:
-        genecat = "prodigal_genes/all_genes.faa",
-        redundant = "prodigal_genes/mmseqs_95id/redundant_genes.tsv"
+        genecat = "VAMB_genes/prodigal_genes/all_genes.faa",
+        redundant = "VAMB_genes/prodigal_genes/mmseqs_95id/redundant_genes.tsv"
     output:
-        genecat_nonredundant = "nonredundant_gene_clusters/all_genes_nonredundant.fasta"
+        genecat_nonredundant = "VAMB_genes/nonredundant_gene_clusters/all_genes_nonredundant.fasta"
     threads: 1
     resources:
         mem_gb = 50,
@@ -121,12 +122,13 @@ rule nonredundant_catalogue:
     shell:
         "filterbyname.sh in={input.genecat} out={output.genecat_nonredundant} names={input.redundant} include=f"
 
+
 # The reads are mapped to the nonredundant gene catalogue with minimap2
 rule minimap_index:
     input:
-        "nonredundant_gene_clusters/all_genes_nonredundant.fasta"
+        "VAMB_genes/nonredundant_gene_clusters/all_genes_nonredundant.fasta"
     output:
-        "nonredundant_gene_clusters/nonredundant.mmi"
+        "VAMB_genes/nonredundant_gene_clusters/nonredundant.mmi"
     threads: 1
     resources:
         mem_gb = 50,
@@ -136,12 +138,12 @@ rule minimap_index:
 
 rule minimap_align:
     input:
-        index = "nonredundant_gene_clusters/nonredundant.mmi",
-        gene_cat = "nonredundant_gene_clusters/all_genes_nonredundant.fasta",
+        index = "VAMB_genes/nonredundant_gene_clusters/nonredundant.mmi",
+        gene_cat = "VAMB_genes/nonredundant_gene_clusters/all_genes_nonredundant.fasta",
         fastq1 = "/home/projects/cu_10108/people/trizac/reads/{sample}_1.fastq",
        	fastq2 = "/home/projects/cu_10108/people/trizac/reads/{sample}_2.fastq"
     output:
-        "nonredundant_gene_clusters/mapped_reads/gene_counts_{sample}.bam"
+        "VAMB_genes/nonredundant_gene_clusters/mapped_reads/gene_counts_{sample}.bam"
     threads: 40
     resources:
         mem_gb = 188,
@@ -153,9 +155,9 @@ rule minimap_align:
 # Use samtools to count the genes
 rule count_genes:
     input:
-        "nonredundant_gene_clusters/mapped_reads/gene_counts_{sample}.bam"
+        "VAMB_genes/nonredundant_gene_clusters/mapped_reads/gene_counts_{sample}.bam"
     output:
-        count = "nonredundant_gene_clusters/counts/{sample}.counts"
+        count = "VAMB_genes/nonredundant_gene_clusters/counts/{sample}.counts"
     threads: 1
     resources:
         mem_gb = 20,
@@ -166,9 +168,9 @@ rule count_genes:
 # Create the gene index
 rule gene_names:
     input:
-        "nonredundant_gene_clusters/mapped_reads/gene_counts_{sample}.bam"
+        "VAMB_genes/nonredundant_gene_clusters/mapped_reads/gene_counts_{sample}.bam"
     output:
-        "nonredundant_gene_clusters/mapped_reads/gene_names_{sample}"
+        "VAMB_genes/nonredundant_gene_clusters/mapped_reads/gene_names_{sample}"
     wildcard_constraints:
         sample=SAMPLES[0]
     threads: 1
@@ -181,9 +183,9 @@ rule gene_names:
 # Create the header for the matrix
 rule create_header:
     input: 
-        expand("nonredundant_gene_clusters/counts/{sample}.counts", sample=SAMPLES)
+        expand("VAMB_genes/nonredundant_gene_clusters/counts/{sample}.counts", sample=SAMPLES)
     output:
-        header = "nonredundant_gene_clusters/mapped_reads/header.txt"
+        header = "VAMB_genes/nonredundant_gene_clusters/mapped_reads/header.txt"
     threads: 1
     resources:
         mem_gb = 188,
@@ -200,14 +202,25 @@ rule create_header:
 #Combining the gene names with the counts of all samples
 rule gene_count_matrix:
     input:
-        counts = expand("nonredundant_gene_clusters/counts/{sample}.counts", sample=SAMPLES),
-        gene_names = expand("nonredundant_gene_clusters/mapped_reads/gene_names_{sample}", sample=SAMPLES[0]),
+        counts = expand("VAMB_genes/nonredundant_gene_clusters/counts/{sample}.counts", sample=SAMPLES),
+        gene_names = expand("VAMB_genes/nonredundant_gene_clusters/mapped_reads/gene_names_{sample}", sample=SAMPLES[0]),
         header = "nonredundant_gene_clusters/mapped_reads/header.txt"
     output:
-        "nonredundant_gene_clusters/gene_count_matrix.tsv"
+        "VAMB_genes/nonredundant_gene_clusters/gene_count_matrix.tsv"
     threads: 1
     resources:
         mem_gb = 188,
         runtime = 1800 #30min
     shell:
-        "paste {input.gene_names} {input.counts} | cat {input.header} - > {output}"
+        "paste {input.gene_names} {input.counts} | cat {input.header} - > {output}; sed -i '$d' {output}"
+
+#Combining the genelists into a single file with the cluster number as a column
+rule gene_lists:
+    input: expand("VAMB_genes/nonredundant_gene_clusters/gene_lists/{id}_genes.txt", id=IDS)
+    output: "VAMB_genes/nonredundant_gene_clusters/geneID_clusterID_snake.tsv"
+    threads: 38
+    resources:
+        mem_gb = 188,
+        runtime = 86400 # 24h
+    shell:
+        "for file in {input}; do cat $file | while read line; do cluster=$(echo $file | grep -o '[^/]*$' | cut -d '_' -f 1); echo $line $cluster >> {output}; done; done;"
