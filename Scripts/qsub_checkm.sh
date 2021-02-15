@@ -30,3 +30,4 @@ INDIR_PURE=$(echo "$INDIR" | rev | cut -f 1 -d '/' | rev)
 
 checkm lineage_wf "$INDIR" "$OUTDIR" -t 5 --pplacer_threads 5
 checkm qa "$OUTDIR"/lineage.ms "$OUTDIR" -o 2 -t 38 --tab_table -f "$OUTDIR"/"$INDIR_PURE"_checkm_qa.tsv 
+Rscript /home/people/gisves/Github/Metagenomic-bin-processor/Bin/checkm_summary.r "$OUTDIR"/"$INDIR_PURE"_checkm_qa.tsv

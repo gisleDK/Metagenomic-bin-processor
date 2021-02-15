@@ -26,4 +26,6 @@ bins_rounded$Quality[bins$Contamination < 5] <- ">5% contamination"
 bins_rounded$Quality[bins$Contamination < 1] <- ">1% contamination"
 bins_rounded$Quality <- factor(bins_rounded$Quality, levels = c(">10% contamination", "<10% contamination", ">5% contamination", ">1% contamination"))
 ggplot(bins_rounded, aes(x = Completeness, fill = Quality)) + geom_area(binwidth = 1, stat = "bin")
-ggsave("plot_binsizes.png", width = 5, height = 5)
+ggsave(paste(dirname(args[1]), "plot_binsizes.png", sep = "/"), width = 5, height = 5)
+file.exists("Rplots.pdf")
+file.remove("Rplots.pdf")
