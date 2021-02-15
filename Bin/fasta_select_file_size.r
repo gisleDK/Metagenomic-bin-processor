@@ -18,7 +18,8 @@
 require(tidyverse)
 ## ---------------------------
 ## setwd("?")
-bins <- read_delim("./data/raw/binsize.tsv", "\t", col_names = FALSE)
+args = commandArgs(trailingOnly=TRUE)
+bins <- read_delim(args[1], "\t", col_names = FALSE)
 ggplot(data=bins, aes(X2)) + geom_histogram(binwidth = 1000) + xlab("Bin size in bp") + coord_cartesian(ylim=c(0,20), xlim=c(0,10000000)) + theme_bw() + geom_vline(xintercept = as.numeric(args[2]), linetype="dotted", color = "red", size=1)
 ggsave("plot_binsizes.png")
 file.exists("Rplots.pdf")
