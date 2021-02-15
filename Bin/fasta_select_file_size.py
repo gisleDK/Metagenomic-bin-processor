@@ -14,7 +14,7 @@ import subprocess
 
 parser = argparse.ArgumentParser(description='Select fasta files by lenght')
 parser.add_argument("-i", "--indir", required = True, 
-					help="Input directory contatining fasta files")
+					help="Input directory containing fasta files")
 parser.add_argument("-L", "--large",  
 					help="Select larger or equal to this number of basepairs", type=int)
 parser.add_argument("-S", "--small",  
