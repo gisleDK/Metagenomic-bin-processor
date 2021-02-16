@@ -27,7 +27,8 @@ SAMPLES, = glob_wildcards("/home/projects/cu_10108/people/trizac/reads/{sample}_
 rule all:
         input: "VAMB_genes/prodigal_genes/mmseqs_95id/all_genes95_rep_seq.fasta",
                "VAMB_genes/nonredundant_gene_clusters/gene_count_matrix.tsv",
-                "VAMB_genes/nonredundant_gene_clusters/geneID_clusterID_snake.tsv"
+                "VAMB_genes/nonredundant_gene_clusters/geneID_clusterID_snake.tsv",
+               "VAMB_genes/nonredundant_gene_clusters/all_genes_nonredundant.fasta"
 
 
 # Use prodigal to predict genes
@@ -111,7 +112,7 @@ rule nonredundant_clusters:
 
 rule nonredundant_catalogue:
     input:
-        genecat = "VAMB_genes/prodigal_genes/all_genes.faa",
+        genecat = "VAMB_genes/prodigal_genes/all_genes.fna",
         redundant = "VAMB_genes/prodigal_genes/mmseqs_95id/redundant_genes.tsv"
     output:
         genecat_nonredundant = "VAMB_genes/nonredundant_gene_clusters/all_genes_nonredundant.fasta"
@@ -143,7 +144,7 @@ rule minimap_align:
         fastq1 = "/home/projects/cu_10108/people/trizac/reads/{sample}_1.fastq",
        	fastq2 = "/home/projects/cu_10108/people/trizac/reads/{sample}_2.fastq"
     output:
-        "VAMB_genes/nonredundant_gene_clusters/mapped_reads/gene_counts_{sample}.bam"
+        temp("VAMB_genes/nonredundant_gene_clusters/mapped_reads/gene_counts_{sample}.bam")
     threads: 40
     resources:
         mem_gb = 188,
@@ -204,7 +205,7 @@ rule gene_count_matrix:
     input:
         counts = expand("VAMB_genes/nonredundant_gene_clusters/counts/{sample}.counts", sample=SAMPLES),
         gene_names = expand("VAMB_genes/nonredundant_gene_clusters/mapped_reads/gene_names_{sample}", sample=SAMPLES[0]),
-        header = "nonredundant_gene_clusters/mapped_reads/header.txt"
+        header = "VAMB_genes/nonredundant_gene_clusters/mapped_reads/header.txt"
     output:
         "VAMB_genes/nonredundant_gene_clusters/gene_count_matrix.tsv"
     threads: 1
