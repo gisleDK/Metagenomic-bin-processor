@@ -8,7 +8,7 @@
 
 # The output is:
 #    VAMB_genes/nonredundant_gene_clusters/gene_count_matrix.tsv: Gene count matrix of the readcounts of all genes of the unique genes
-#    VAMB_genes/nonredundant_gene_clusters/gene_lists/{id}_genes.txt: List of unique genes for each cluster
+#    VAMB_genes/nonredundant_gene_clusters/geneID_clusterID_snake.tsv: List of gene names and their associated cluster
 
 ##############################################################################################
 
@@ -18,17 +18,15 @@
 import os
 import sys
 
-#Get IDs
+#Get IDs / wildcards for the clusters and the samples
 IDS, =  glob_wildcards("/home/projects/cu_10108/people/trizac/VAMB_genes/contigs/cluster_{id}.fna")
 SAMPLES, = glob_wildcards("/home/projects/cu_10108/people/trizac/reads/{sample}_1.fastq")
 
 
 #Helper rule
 rule all:
-        input: "VAMB_genes/prodigal_genes/mmseqs_95id/all_genes95_rep_seq.fasta",
-               "VAMB_genes/nonredundant_gene_clusters/gene_count_matrix.tsv",
-                "VAMB_genes/nonredundant_gene_clusters/geneID_clusterID_snake.tsv",
-               "VAMB_genes/nonredundant_gene_clusters/all_genes_nonredundant.fasta"
+        input: "VAMB_genes/nonredundant_gene_clusters/gene_count_matrix.tsv",
+                "VAMB_genes/nonredundant_gene_clusters/geneID_clusterID_snake.tsv"
 
 
 # Use prodigal to predict genes
@@ -44,6 +42,7 @@ rule gene_predict:
         runtime = 43200
     shell:
         "prodigal -i {input} -a {output.protein} -d {output.nuceotides} -p meta"
+
 
 # combine genes from all the samples
 rule combine_genes:
@@ -181,6 +180,7 @@ rule gene_names:
     shell:
         "samtools idxstats {input} | cut -f1 > {output}"
 
+
 # Create the header for the matrix
 rule create_header:
     input: 
@@ -214,6 +214,7 @@ rule gene_count_matrix:
         runtime = 1800 #30min
     shell:
         "paste {input.gene_names} {input.counts} | cat {input.header} - > {output}; sed -i '$d' {output}"
+
 
 #Combining the genelists into a single file with the cluster number as a column
 rule gene_lists:
