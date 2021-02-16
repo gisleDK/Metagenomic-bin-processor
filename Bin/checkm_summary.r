@@ -17,6 +17,8 @@
 require(tidyverse)
 ## ---------------------------
 ## setwd("?")
+file.exists("plot_binsizes.png")
+file.remove("plot_binsizes.png")
 args = commandArgs(trailingOnly=TRUE)
 bins <- readr::read_tsv(args[1], col_names = TRUE)
 bins_rounded <- bins %>% mutate_if(is.numeric, round)
