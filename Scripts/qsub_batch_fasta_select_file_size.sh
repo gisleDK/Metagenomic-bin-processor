@@ -31,13 +31,13 @@ LIST=$5
 mkdir -p $OUT
 
 if [[ "$STRING" == "larger" ]]; then
-	/home/projects/cu_10108/data/Bin/parallel -j 38 '/home/projects/cu_10108/data/Scripts/biopythonpieces_fasta_select_file_size.py -i {1} -L {2} -o {3}/{1} -l {4}' :::: $FASTA ::: $INT ::: $OUT ::: $LIST
+	python3 ~/Github/Metagenomic-bin-processor/Bin/fasta_select_file_size.py -i "$FASTA" -L "$INT" -o "$OUT" -l "$LIST"
 elif [[ "$STRING" == "smaller" ]]; then
-	/home/projects/cu_10108/data/Bin/parallel -j 38 '/home/projects/cu_10108/data/Scripts/biopythonpieces_fasta_select_file_size.py -i {1} -S {2} -o {3}/{1} -l {4}' :::: $FASTA ::: $INT ::: $OUT ::: $LIST
+	python3 ~/Github/Metagenomic-bin-processor/Bin/fasta_select_file_size.py -i "$FASTA" -S "$INT" -o "$OUT" -l "$LIST"
 else
 	echo "$2 is not a valid option"
 	echo "Usage: qsub -F '<input directory containing fasta .fna files DIR> <larger/smaller STRING> <cut-off INT> <output directory DIR> <output file name for list of bin sizes FILE>' qsub_batch_fasta_select_file_size.py"; exit 1;
 fi
 
 echo "Running R script to visualize ALL bin sizes"
-Rscript /home/projects/cu_10108/data/Scripts/biopythonpieces_fasta_select_file_size.r $LIST
+Rscript ~/Github/Metagenomic-bin-processor/Bin/fasta_select_file_size.r $LIST $INT

@@ -58,7 +58,7 @@ if args.large:
 		if length >= args.large:
 			output = args.output + "/"
 			subprocess.call(['scp', filename , output])
-	handle.close
+		handle.close
    
 # If we are looking for larger than or equal to, this part opens each fna file and
 # sums the length of each fasta entry. If the total length of that file satisfies
@@ -78,7 +78,7 @@ if args.small:
 		if length <= args.small:
 			output = args.output + "/"
 			subprocess.call(['scp', filename , output])
-	handle.close
+		handle.close
 
 if args.list is not None:
 	with open (args.list, "a") as f:
