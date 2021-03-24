@@ -1,5 +1,5 @@
 #this is a test of the branch
-# not working 
+
 ##############################################################################################
 
 #This Snakefile takes the sequences of VAMB clusters and produces a gene count matrix of the nonredundant genes for each cluster (also excluding representative sequences)
