@@ -1,0 +1,8 @@
+
+#Get IDs / wildcards for the clusters and the samples
+
+#IDS, =  glob_wildcards("/home/projects/cu_10108/people/trizac/VAMB_genes/contigs/cluster_{id}.fna")
+SAMPLES, = glob_wildcards("/home/projects/cu_10108/people/trizac/reads/{sample}_1.fastq")
+
+checkm = "/home/projects/cu_10108/data/Generated/COPSAC_1/Vamb/bins_200000_redux/allbins_checkm_qa_HQ_bins.tsv"
+clusters = "/home/projects/cu_10108/data/Generated/COPSAC_1/Vamb/clusters.tsv"

@@ -1,11 +1,9 @@
-#this is a test of the branch
-
 ##############################################################################################
 
 #This Snakefile takes the sequences of VAMB clusters and produces a gene count matrix of the nonredundant genes for each cluster (also excluding representative sequences)
 
 #input files is found in
-#/home/projects/cu_10108/people/trizac/VAMB_genes/contigs
+#/home/projects/cu_10108/people/trizac/HQ_clusters/contigs
 
 # The output is:
 #    VAMB_genes/nonredundant_gene_clusters/gene_count_matrix.tsv: Gene count matrix of the readcounts of all genes of the unique genes
@@ -19,21 +17,31 @@
 import os
 import sys
 
+
+#configfile: "config.yaml"
+
 #Get IDs / wildcards for the clusters and the samples
-IDS, =  glob_wildcards("/home/projects/cu_10108/people/trizac/VAMB_genes/contigs/cluster_{id}.fna")
+IDS, =  glob_wildcards("/home/projects/cu_10108/people/trizac/HQ_clusters/contigs/cluster_{id}.fna")
 SAMPLES, = glob_wildcards("/home/projects/cu_10108/people/trizac/reads/{sample}_1.fastq")
+
 
 
 #Helper rule
 rule all:
         input: "VAMB_genes/nonredundant_gene_clusters/gene_count_matrix.tsv",
-                "VAMB_genes/nonredundant_gene_clusters/geneID_clusterID_snake.tsv"
+               "VAMB_genes/nonredundant_gene_clusters/geneID_clusterID_snake.tsv",
+               "VAMB_genes/signature_genes/gene_lengths.RDS"
+
+# Extracting contigs of checkM approved clusters (>90% completeness and <5% contamination)
+#rule extract_contigs_IDs:
+#    input: 
+#        checkm_approved = "
 
 
 # Use prodigal to predict genes
 rule gene_predict:
     input:
-        "VAMB_genes/contigs/cluster_{id}.fna"
+        "HQ_clusters/contigs/cluster_{id}.fna"
     output:
         protein = "VAMB_genes/prodigal_genes/proteins/{id}.faa",
         nuceotides = "VAMB_genes/prodigal_genes/nucleotides/{id}.fna"
@@ -66,20 +74,21 @@ rule repres_genes:
     input:
         "VAMB_genes/prodigal_genes/all_genes.faa"
     output:
-        "VAMB_genes/prodigal_genes/mmseqs_95id/all_genes95_rep_seq.fasta"
+        fasta = "all_genes95_rep_seq.fasta",
+        tsv = "all_genes95_cluster.tsv"
     threads: 14
     resources:
         mem_gb = 50,
         runtime = 86400
     shell:
-        "mmseqs easy-linclust --min-seq-id 0.95 -c 0.95 --threads {threads} {input} prodigal_genes/mmseqs_95id/all_genes95 tmp;"
+        "mmseqs easy-linclust --min-seq-id 0.95 -c 0.95 --threads {threads} {input} all_genes95 tmp;"
 
 
 # Creating a file only containing the redundant genes and their representatives
 # Based on the clustering file from mmseqs
 rule redundant_genes:
     input:
-        "VAMB_genes/prodigal_genes/mmseqs_95id/all_genes95_cluster.tsv"
+        "all_genes95_cluster.tsv"
     output:
         "VAMB_genes/prodigal_genes/mmseqs_95id/redundant_genes.tsv"
     threads: 1
@@ -197,6 +206,7 @@ rule create_header:
         for f in input:
             sample_name = f.split("/")[-1].split(".")[0]
             header = header + "\t" + sample_name
+        header = header + "\n"
         with open(output.header, "w") as out:
             out.write(header)
 
@@ -224,6 +234,30 @@ rule gene_lists:
     threads: 38
     resources:
         mem_gb = 188,
-        runtime = 86400 # 24h
+        runtime = 345600 # 4 days
     shell:
         "for file in {input}; do cat $file | while read line; do cluster=$(echo $file | grep -o '[^/]*$' | cut -d '_' -f 1); echo $line $cluster >> {output}; done; done;"
+
+
+#Converting the gene count matrix to cluster-matrices in R dataformat 
+rule format_conversion:
+    input:
+        gene_clusters = "VAMB_genes/nonredundant_gene_clusters/geneID_clusterID_snake.tsv",
+        matrix = "VAMB_genes/nonredundant_gene_clusters/gene_count_matrix.tsv",
+        gene_lengths = "VAMB_genes/nonredundant_gene_clusters/all_genes_nonredundant.fasta.fai"
+    output:
+        R_clusters = "VAMB_genes/signature_genes/cluster.RDS",
+        R_gene_lengths = "VAMB_genes/signature_genes/gene_lengths.RDS"
+    threads: 38
+    resources:
+        mem_gb = 188,
+        runtime = 86400 # 24h
+    script:
+        "scripts/matrix2SG_formatconversion.R"
+
+#rule SG_refinement:
+#    input:
+#        R_clusters = "
+#    threads: 6
+
+    
