@@ -1,4 +1,4 @@
-# Metagenomic bin processor
+# MAGinator
 ## Introduction
 This is a collection of tools that should help with downstream analysis of data obtained from metagenomic binnser such as Vamb or MSPMiner.
 Vamb provides not only the binning clusters of all related contigs but also the bins obtained from individual samples and like many other programs allows a lot of options. Be aware that your question should dictate your workflow but I am providing information about how I run Vamb to allow better reproduction of my workflows.
