@@ -6,7 +6,7 @@ The provided scripts are all made for high-performance computing servers using a
 <img align="center" src="https://github.com/gisleDK/Metagenomic-bin-processor/blob/gh-pages/workflow.png?raw=true" width="600">
 ### Binning using Vamb
 This example binning workflow was used for fecal samples. It is provided mainly to allow reproduction since VAMB now comes with an excellent snakemake workflow, but can of course be used. Remember to adjust according to your data and hypothesis. You should also check input/output using [FastQC](https://github.com/s-andrews/FastQC) at every step to insure optimal quality. For VAMB documentation look at [Vambs](https://github.com/RasmussenLab/vamb) Github and use their snakemake! <br>
-### Binning workflow we use
+#### Binning workflow we use
 1. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_bbduk_KTrim.sh) removes adapter sequence from raw reads using [bbduk](https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/).
 2. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_sickle.sh) performs trimming of low quality sequence using [Sickle](https://github.com/najoshi/sickle).
 3. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_bbmap_Decon.sh) removes host contamination [bbmap](https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/).
@@ -17,7 +17,7 @@ This example binning workflow was used for fecal samples. It is provided mainly 
 8. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_fasta_coverage.sh) analyses the contig coverage using JGIs [jgi_summarize_bam_contig_depths](https://bitbucket.org/berkeleylab/metabat/src/master/), which is actually part of the Metabat binner.
 9. Now we are ready to bin using [this script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_vamb_bin.sh) which is running the GPU-accelerated [VAMB](https://github.com/RasmussenLab/vamb).
 
-## Postprocessing bins
+## Postprocessing contig-based bins from VAMB
 <img align="right" src="https://github.com/gisleDK/Metagenomic-bin-processor/blob/gh-pages/plot_binsizes.png?raw=true" width="500">
 
 The binning workflows suggested do not have a lower cut-off for bins. This means that we will have many small bins of which some will be of little use.
