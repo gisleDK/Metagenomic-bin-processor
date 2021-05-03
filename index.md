@@ -4,9 +4,9 @@ This is a collection of tools that should help with downstream analysis of data 
 Vamb provides not only the binning clusters of all related contigs but also the bins obtained from individual samples and like many other programs allows a lot of options. Be aware that your question should dictate your workflow but I am providing information about how I run Vamb to allow better reproduction of my workflows.
 The provided scripts are all made for high-performance computing servers using a TORQUE Resource Manager and more specifically tested/running on [Computerome 2.0](https://www.computerome.dk/display/C2W/Computerome+2.0). The goal is to provide a snakemake worfklow incorporating conda environments for a user-friendly and reproducible workflow.
 <img align="center" src="https://github.com/gisleDK/Metagenomic-bin-processor/blob/gh-pages/workflow.png?raw=true" width="600">
-## Binning using Vamb
-This example binning workflow was used for fecal samples. It is provided mainly to allow reproduction, but can of course be used. Remember to adjust according to your data and hypothesis. You should also check input/output using [FastQC](https://github.com/s-andrews/FastQC) at every step to insure optimal quality. For VAMB documentation look at [Vambs](https://github.com/RasmussenLab/vamb) Github which now includes a snakemake! <br>
-### Overview
+### Binning using Vamb
+This example binning workflow was used for fecal samples. It is provided mainly to allow reproduction since VAMB now comes with an excellent snakemake workflow, but can of course be used. Remember to adjust according to your data and hypothesis. You should also check input/output using [FastQC](https://github.com/s-andrews/FastQC) at every step to insure optimal quality. For VAMB documentation look at [Vambs](https://github.com/RasmussenLab/vamb) Github and use their snakemake! <br>
+### Binning workflow we use
 1. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_bbduk_KTrim.sh) removes adapter sequence from raw reads using [bbduk](https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/).
 2. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_sickle.sh) performs trimming of low quality sequence using [Sickle](https://github.com/najoshi/sickle).
 3. [This script](https://github.com/gisleDK/Vamb_tools/blob/main/Scripts/qsub_bbmap_Decon.sh) removes host contamination [bbmap](https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/).
